@@ -1,0 +1,88 @@
+<svg width="340" height="150" viewBox="0 0 340 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="laptopGrad" x1="160" y1="20" x2="280" y2="130" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="screenGrad" x1="170" y1="30" x2="270" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#EFF6FF"/>
+      <stop offset="100%" stop-color="#DBEAFE"/>
+    </linearGradient>
+    <linearGradient id="plantGrad" x1="80" y1="50" x2="110" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <filter id="shadow" x="-10" y="-5" width="360" height="160" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Surface Base -->
+  <ellipse cx="200" cy="138" rx="120" ry="8" fill="#E2E8F0" opacity="0.6"/>
+
+  <!-- Potted Plant (Left) -->
+  <ellipse cx="95" cy="130" rx="18" ry="4" fill="#CBD5E1"/>
+  <!-- Plant Pot -->
+  <path d="M85 110 L88 132 C88 134 102 134 102 132 L105 110 Z" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+  <!-- Pot Rim -->
+  <rect x="83" y="106" width="24" height="5" rx="2" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <!-- Plant Leaves -->
+  <path d="M95 106 C90 92 78 86 74 88 C74 96 85 102 93 106 Z" fill="url(#plantGrad)"/>
+  <path d="M95 106 C92 86 85 75 92 72 C98 75 97 90 95 106 Z" fill="#34D399"/>
+  <path d="M95 106 C102 88 114 82 118 85 C116 94 105 100 97 106 Z" fill="url(#plantGrad)"/>
+  <path d="M95 106 C100 95 108 92 112 94 C110 100 102 104 95 106 Z" fill="#10B981"/>
+
+  <!-- Laptop Display Back & Bezel -->
+  <rect x="160" y="22" width="125" height="85" rx="7" fill="url(#laptopGrad)" stroke="#334155" stroke-width="1.5"/>
+  <!-- Screen Area -->
+  <rect x="167" y="28" width="111" height="71" rx="4" fill="url(#screenGrad)"/>
+  
+  <!-- Screen UI Mockup -->
+  <!-- Search Bar on Screen -->
+  <rect x="176" y="44" width="93" height="15" rx="7.5" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1"/>
+  <circle cx="186" cy="51.5" r="3.5" fill="none" stroke="#6C47FF" stroke-width="1.2"/>
+  <line x1="188.5" y1="54" x2="191" y2="56.5" stroke="#6C47FF" stroke-width="1.2" stroke-linecap="round"/>
+  <text x="195" y="55" font-family="-apple-system, sans-serif" font-size="7" font-weight="600" fill="#475569">Job Search</text>
+
+  <!-- Mini Result Cards on Screen -->
+  <rect x="176" y="65" width="93" height="8" rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="180" y="68" width="22" height="2" rx="1" fill="#6C47FF"/>
+  <rect x="206" y="68" width="30" height="2" rx="1" fill="#94A3B8"/>
+
+  <rect x="176" y="76" width="93" height="8" rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="180" y="79" width="18" height="2" rx="1" fill="#0EA5E9"/>
+  <rect x="202" y="79" width="25" height="2" rx="1" fill="#94A3B8"/>
+
+  <rect x="176" y="87" width="93" height="8" rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="180" y="90" width="26" height="2" rx="1" fill="#10B981"/>
+  <rect x="210" y="90" width="20" height="2" rx="1" fill="#94A3B8"/>
+
+  <!-- Laptop Keyboard Base -->
+  <path d="M142 108 L303 108 L296 117 C295 119 292 120 288 120 L157 120 C153 120 150 119 149 117 Z" fill="#94A3B8"/>
+  <path d="M140 109 L305 109 L298 120 L147 120 Z" fill="#CBD5E1"/>
+  <rect x="205" y="112" width="35" height="4" rx="2" fill="#94A3B8"/>
+
+  <!-- Coffee Cup (Right) -->
+  <ellipse cx="308" cy="128" rx="10" ry="3" fill="#CBD5E1"/>
+  <rect x="301" y="112" width="14" height="15" rx="3" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2"/>
+  <path d="M315 115 C318 115 319 119 315 122" fill="none" stroke="#CBD5E1" stroke-width="1.5"/>
+
+  <!-- Floating Skill Badge 1: AI/ML (Top Center/Left) -->
+  <g transform="translate(130, 8)">
+    <rect x="0" y="0" width="46" height="20" rx="10" fill="#6C47FF" filter="url(#shadow)"/>
+    <text x="23" y="13.5" font-family="-apple-system, sans-serif" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">AI/ML</text>
+  </g>
+
+  <!-- Floating Skill Badge 2: Data Science (Top Right) -->
+  <g transform="translate(230, 4)">
+    <rect x="0" y="0" width="68" height="20" rx="10" fill="#0EA5E9" filter="url(#shadow)"/>
+    <text x="34" y="13.5" font-family="-apple-system, sans-serif" font-size="8" font-weight="700" fill="#FFFFFF" text-anchor="middle">Data Science</text>
+  </g>
+
+  <!-- Floating Skill Badge 3: Python (Far Right Mid) -->
+  <g transform="translate(265, 36)">
+    <rect x="0" y="0" width="50" height="20" rx="10" fill="#8B5CF6" filter="url(#shadow)"/>
+    <text x="25" y="13.5" font-family="-apple-system, sans-serif" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">Python</text>
+  </g>
+</svg>
