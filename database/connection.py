@@ -12,19 +12,29 @@ from database.models import Base, Profile
 # Load .env file
 load_dotenv()
 
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "3306")
-DB_NAME = os.getenv("DB_NAME", "job_search_rec")
-DB_USER = os.getenv("DB_USER", "root")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+def get_config_val(key: str, default: str = "") -> str:
+    """Retrieve config value from st.secrets if available, falling back to os.environ."""
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            return str(st.secrets[key])
+    except Exception:
+        pass
+    return str(os.getenv(key, default))
+
 
 def get_database_url() -> str:
     """Build MySQL SQLAlchemy connection URL with PyMySQL driver."""
-    # Ensure URL encoding or raw string handling for special chars in password
     from urllib.parse import quote_plus
-    encoded_user = quote_plus(DB_USER)
-    encoded_pwd = quote_plus(DB_PASSWORD)
-    return f"mysql+pymysql://{encoded_user}:{encoded_pwd}@{DB_HOST}:{DB_PORT}/{DB_NAME}?charset=utf8mb4"
+    host = get_config_val("DB_HOST", "localhost")
+    port = get_config_val("DB_PORT", "3306")
+    dbname = get_config_val("DB_NAME", "job_search_rec")
+    user = get_config_val("DB_USER", "root")
+    pwd = get_config_val("DB_PASSWORD", "")
+
+    encoded_user = quote_plus(user)
+    encoded_pwd = quote_plus(pwd)
+    return f"mysql+pymysql://{encoded_user}:{encoded_pwd}@{host}:{port}/{dbname}?charset=utf8mb4"
 
 _engine = None
 _SessionFactory = None

@@ -17,8 +17,17 @@ from services.normalizer import (
 
 load_dotenv()
 
-ARBEITNOW_API_URL = os.getenv("ARBEITNOW_API_URL", "https://www.arbeitnow.com/api/job-board-api")
-API_TIMEOUT_SECONDS = int(os.getenv("API_TIMEOUT_SECONDS", "10"))
+def _get_config(key: str, default: str) -> str:
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            return str(st.secrets[key])
+    except Exception:
+        pass
+    return str(os.getenv(key, default))
+
+ARBEITNOW_API_URL = _get_config("ARBEITNOW_API_URL", "https://www.arbeitnow.com/api/job-board-api")
+API_TIMEOUT_SECONDS = int(_get_config("API_TIMEOUT_SECONDS", "10"))
 MAX_RETRIES = 3
 
 
