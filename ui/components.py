@@ -269,7 +269,7 @@ def render_recent_searches_widget(recent_searches: List[Dict[str, Any]], on_sele
     with c_head:
         st.markdown('<div class="insights-card-title" style="margin: 0;">⏱️ Recent Searches</div>', unsafe_allow_html=True)
     with c_btn:
-        if st.button("View All", key="btn_view_all_searches", kind="secondary"):
+        if st.button("View All", key="btn_view_all_searches", type="secondary"):
             if on_view_all:
                 on_view_all()
 
@@ -292,7 +292,7 @@ def render_recent_searches_widget(recent_searches: List[Dict[str, Any]], on_sele
                 </div>
                 """, unsafe_allow_html=True)
             with c_act:
-                if st.button("Re-run", key=f"btn_rerun_s_{s.get('id')}_{idx}", kind="secondary"):
+                if st.button("Re-run", key=f"btn_rerun_s_{s.get('id')}_{idx}", type="secondary"):
                     if on_select_search:
                         on_select_search(s)
 

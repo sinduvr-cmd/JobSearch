@@ -209,7 +209,7 @@ def render_search_page(profile: Dict[str, Any], raw_jobs: List[Dict[str, Any]], 
         chip_cols = st.columns(len(popular_skills))
         for idx, chip in enumerate(popular_skills):
             with chip_cols[idx]:
-                if st.button(chip, key=f"chip_{chip}", kind="secondary"):
+                if st.button(chip, key=f"chip_{chip}", type="secondary"):
                     # Append or set query
                     current_parts = [p.strip() for p in query_input.split(",") if p.strip()]
                     if chip not in current_parts:

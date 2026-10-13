@@ -185,7 +185,7 @@ with st.sidebar:
 
     # 6. Reset Filters Action
     st.markdown("<br/>", unsafe_allow_html=True)
-    if st.button("🔄 Reset Filters", use_container_width=True, kind="secondary"):
+    if st.button("🔄 Reset Filters", use_container_width=True, type="secondary"):
         st.session_state["filter_job_types"] = ["Full-time"]
         st.session_state["filter_work_models"] = ["Remote", "Hybrid", "On-site"] if st.session_state["is_demo_mode"] else ["Remote"]
         st.session_state["filter_exp"] = "All Levels"
