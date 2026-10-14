@@ -204,19 +204,20 @@ def render_search_page(profile: Dict[str, Any], raw_jobs: List[Dict[str, Any]], 
             st.markdown("<div style='height: 28px;'></div>", unsafe_allow_html=True)
             search_clicked = st.button("🔍 Search Jobs", type="primary", use_container_width=True)
 
-        # Popular Skill Chips row
-        st.markdown('<div class="popular-skills-row"><span class="popular-skills-label">Popular Skills:</span>', unsafe_allow_html=True)
-        chip_cols = st.columns(len(popular_skills))
-        for idx, chip in enumerate(popular_skills):
-            with chip_cols[idx]:
-                if st.button(chip, key=f"chip_{chip}", type="secondary"):
-                    # Append or set query
-                    current_parts = [p.strip() for p in query_input.split(",") if p.strip()]
-                    if chip not in current_parts:
-                        current_parts.append(chip)
-                    st.session_state["search_query"] = ", ".join(current_parts)
-                    st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
+        # Popular Skill Chips row using native st.pills for clean wrapped labels
+        selected_pill = st.pills(
+            "Popular Skills:",
+            options=popular_skills,
+            selection_mode="single",
+            key="pills_popular_skills_select"
+        )
+        if selected_pill and selected_pill != st.session_state.get("last_clicked_pill"):
+            st.session_state["last_clicked_pill"] = selected_pill
+            current_parts = [p.strip() for p in query_input.split(",") if p.strip()]
+            if selected_pill not in current_parts:
+                current_parts.append(selected_pill)
+            st.session_state["search_query"] = ", ".join(current_parts)
+            st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
     # If search button clicked, update state

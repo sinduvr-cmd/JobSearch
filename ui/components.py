@@ -18,19 +18,17 @@ def render_hero_banner():
         with open(svg_path, "r", encoding="utf-8") as f:
             svg_content = f.read()
 
-    html_content = f"""
-    <div class="hero-banner-container">
-        <div class="hero-banner-text">
-            <h1 class="hero-banner-heading">Find Your Next Opportunity</h1>
-            <p class="hero-banner-subtitle">
-                Search, explore and get personalized job recommendations based on your skills and preferences.
-            </p>
-        </div>
-        <div class="hero-banner-art">
-            {svg_content}
-        </div>
-    </div>
-    """
+    html_content = (
+        f'<div class="hero-banner-container">'
+        f'<div class="hero-banner-text">'
+        f'<h1 class="hero-banner-heading">Find Your Next Opportunity</h1>'
+        f'<p class="hero-banner-subtitle">'
+        f'Search, explore and get personalized job recommendations based on your skills and preferences.'
+        f'</p>'
+        f'</div>'
+        f'<div class="hero-banner-art">{svg_content}</div>'
+        f'</div>'
+    )
     st.markdown(html_content, unsafe_allow_html=True)
 
 
@@ -133,42 +131,42 @@ def render_job_card(
     explanation = html.escape(job.get("ranking_explanation") or "Standard match")
 
     # Render card container
-    card_html = f"""
-    <div class="job-card">
-        <div class="job-card-header">
-            <div class="job-card-left">
-                {avatar_html}
-                <div>
-                    <h3 class="job-title-text">{title}</h3>
-                    <div class="company-meta-row">
-                        <span class="company-name">{company} {verified_badge}</span>
-                        <span class="meta-bullet">•</span>
-                        <span>📍 {location}</span>
-                        <span class="meta-bullet">•</span>
-                        <span>💼 {emp_type}</span>
-                        <span class="meta-bullet">•</span>
-                        <span>💵 {salary_raw}</span>
-                        <span class="meta-bullet">•</span>
-                        <span>📅 {posted_text}</span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                {work_model_html}
-            </div>
-        </div>
-        <div style="margin: 12px 0 8px 0;">
-            {skill_pills_html}
-        </div>
-        <div class="job-snippet">{snippet}</div>
-        <div class="job-card-footer">
-            <div class="relevance-box">
-                <span class="relevance-score-badge">{relevance_score}% Match</span>
-                <span class="relevance-text">{explanation}</span>
-            </div>
-        </div>
-    </div>
-    """
+    card_html = (
+        f'<div class="job-card">'
+        f'<div class="job-card-header">'
+        f'<div class="job-card-left">'
+        f'{avatar_html}'
+        f'<div>'
+        f'<h3 class="job-title-text">{title}</h3>'
+        f'<div class="company-meta-row">'
+        f'<span class="company-name">{company} {verified_badge}</span>'
+        f'<span class="meta-bullet">•</span>'
+        f'<span>📍 {location}</span>'
+        f'<span class="meta-bullet">•</span>'
+        f'<span>💼 {emp_type}</span>'
+        f'<span class="meta-bullet">•</span>'
+        f'<span>💵 {salary_raw}</span>'
+        f'<span class="meta-bullet">•</span>'
+        f'<span>📅 {posted_text}</span>'
+        f'</div>'
+        f'</div>'
+        f'</div>'
+        f'<div>'
+        f'{work_model_html}'
+        f'</div>'
+        f'</div>'
+        f'<div style="margin: 12px 0 8px 0;">'
+        f'{skill_pills_html}'
+        f'</div>'
+        f'<div class="job-snippet">{snippet}</div>'
+        f'<div class="job-card-footer">'
+        f'<div class="relevance-box">'
+        f'<span class="relevance-score-badge">{relevance_score}% Match</span>'
+        f'<span class="relevance-text">{explanation}</span>'
+        f'</div>'
+        f'</div>'
+        f'</div>'
+    )
     st.markdown(card_html, unsafe_allow_html=True)
 
     # Action buttons row (Streamlit buttons for interactive save & details)
@@ -197,30 +195,39 @@ def render_top_skills_chart(jobs: List[Dict[str, Any]]):
     sorted_skills = sorted(skill_counts.items(), key=lambda x: x[1], reverse=True)[:5]
     if not sorted_skills:
         # Default placeholder if dataset has no tags
-        sorted_skills = [("Python", int(0.82 * total_jobs)), ("SQL", int(0.68 * total_jobs)),
-                         ("Machine Learning", int(0.55 * total_jobs)), ("Data Analysis", int(0.50 * total_jobs)),
-                         ("Deep Learning", int(0.38 * total_jobs))]
+        sorted_skills = [
+            ("Python", int(0.82 * total_jobs)),
+            ("SQL", int(0.68 * total_jobs)),
+            ("Machine Learning", int(0.55 * total_jobs)),
+            ("Data Analysis", int(0.50 * total_jobs)),
+            ("Deep Learning", int(0.38 * total_jobs))
+        ]
 
     colors = ["#6C47FF", "#38BDF8", "#34D399", "#FBBF24", "#F472B6"]
 
-    html_bars = '<div class="insights-card">'
-    html_bars += '<div class="insights-card-title"><span>📊 Top Recommended Skills</span></div>'
-
+    bar_rows = []
     for i, (sk, count) in enumerate(sorted_skills):
         pct = min(100, int(round((count / total_jobs) * 100)))
         color = colors[i % len(colors)]
-        html_bars += f"""
-        <div class="skill-bar-row">
-            <span class="skill-bar-label" title="{html.escape(sk)}">{html.escape(sk)}</span>
-            <div class="skill-bar-track">
-                <div class="skill-bar-fill" style="width: {pct}%; background-color: {color};"></div>
-            </div>
-            <span class="skill-bar-percent">{pct}%</span>
-        </div>
-        """
-    html_bars += '<div style="font-size: 11px; color: #94A3B8; margin-top: 6px;">* % of currently displayed jobs requiring each skill</div>'
-    html_bars += '</div>'
-    st.markdown(html_bars, unsafe_allow_html=True)
+        bar_rows.append(
+            f'<div class="skill-bar-row">'
+            f'<span class="skill-bar-label" title="{html.escape(sk)}">{html.escape(sk)}</span>'
+            f'<div class="skill-bar-track">'
+            f'<div class="skill-bar-fill" style="width: {pct}%; background-color: {color};"></div>'
+            f'</div>'
+            f'<span class="skill-bar-percent">{pct}%</span>'
+            f'</div>'
+        )
+
+    bars_html = "".join(bar_rows)
+    chart_html = (
+        f'<div class="insights-card">'
+        f'<div class="insights-card-title"><span>📊 Top Recommended Skills</span></div>'
+        f'{bars_html}'
+        f'<div style="font-size: 11px; color: #94A3B8; margin-top: 8px;">* % of currently displayed jobs requiring each skill</div>'
+        f'</div>'
+    )
+    st.markdown(chart_html, unsafe_allow_html=True)
 
 
 def render_job_type_donut(jobs: List[Dict[str, Any]]):
@@ -285,12 +292,13 @@ def render_recent_searches_widget(recent_searches: List[Dict[str, Any]], on_sele
 
             c_q, c_act = st.columns([4, 1])
             with c_q:
-                st.markdown(f"""
-                <div class="recent-search-item">
-                    <span class="recent-search-query">🔍 {html.escape(display_title[:24])}</span>
-                    <span class="recent-search-time">{time_str}</span>
-                </div>
-                """, unsafe_allow_html=True)
+                item_html = (
+                    f'<div class="recent-search-item">'
+                    f'<span class="recent-search-query">🔍 {html.escape(display_title[:24])}</span>'
+                    f'<span class="recent-search-time">{time_str}</span>'
+                    f'</div>'
+                )
+                st.markdown(item_html, unsafe_allow_html=True)
             with c_act:
                 if st.button("Re-run", key=f"btn_rerun_s_{s.get('id')}_{idx}", type="secondary"):
                     if on_select_search:
