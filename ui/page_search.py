@@ -291,7 +291,10 @@ def render_search_page(profile: Dict[str, Any], raw_jobs: List[Dict[str, Any]], 
     # Layout: Central Results Area (col_left) and Right Insights Column (col_right)
     col_results, col_insights = st.columns([8, 4])
 
-    saved_job_ids = get_saved_job_ids(profile_id=profile_id)
+    try:
+        saved_job_ids = get_saved_job_ids(profile_id=profile_id)
+    except Exception:
+        saved_job_ids = st.session_state.get("local_saved_ids", set())
 
     with col_results:
         # Results Header Row
@@ -329,14 +332,20 @@ def render_search_page(profile: Dict[str, Any], raw_jobs: List[Dict[str, Any]], 
             # Render Job Cards
             for idx, j in enumerate(page_jobs):
                 j_id = j.get("id") or (start_idx + idx + 1)
-                is_saved = j_id in saved_job_ids or j.get("external_id") in [str(x) for x in saved_job_ids]
+                is_saved = j_id in saved_job_ids or str(j.get("external_id", "")) in [str(x) for x in saved_job_ids]
 
                 def make_toggle_handler(target_job, target_id):
                     def handler(_):
-                        # Ensure job exists in DB
-                        upsert_jobs_and_skills([target_job])
-                        db_ids = get_saved_job_ids(profile_id=profile_id)
-                        toggle_saved_job(profile_id=profile_id, job_id=target_id)
+                        try:
+                            upsert_jobs_and_skills([target_job])
+                            toggle_saved_job(profile_id=profile_id, job_id=target_id)
+                        except Exception:
+                            # Fallback to local session storage when database is offline
+                            local_saved = st.session_state.setdefault("local_saved_ids", set())
+                            if target_id in local_saved:
+                                local_saved.remove(target_id)
+                            else:
+                                local_saved.add(target_id)
                         st.rerun()
                     return handler
 

@@ -18,8 +18,16 @@ def render_analytics_page():
     try:
         metrics = get_analytics_metrics()
     except Exception as e:
-        st.error(f"Failed to load analytics metrics from MySQL: {e}")
-        return
+        st.warning(f"⚠️ **Database Disconnected:** Could not load analytics metrics from MySQL ({e}). Connect your database to view real-time metrics.")
+        metrics = {
+            "total_jobs": 0,
+            "total_searches": 0,
+            "total_saved": 0,
+            "work_models": {},
+            "employment_types": {},
+            "top_skills": [],
+            "timeline": [],
+        }
 
     # Metric KPI Cards
     m1, m2, m3 = st.columns(3)

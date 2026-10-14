@@ -16,11 +16,11 @@ def render_my_searches_page(profile_id: int = 1):
     try:
         searches = get_recent_searches(profile_id=profile_id, limit=50)
     except Exception as e:
-        st.error(f"Failed to load search history from database: {e}")
-        return
+        st.warning(f"⚠️ **Database Disconnected:** Could not load search history from MySQL ({e}). Connect your database to sync search history.")
+        searches = []
 
     if not searches:
-        st.info("No search history found yet. Run your first search from the **Search Jobs** tab!")
+        st.info("No past searches recorded yet. Run your first search from the **Search Jobs** tab!")
         return
 
     st.markdown(f"**Total Past Searches Recorded:** `{len(searches)}`")

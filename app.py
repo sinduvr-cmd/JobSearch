@@ -57,17 +57,21 @@ if "is_demo_mode" not in st.session_state:
     # Default to True so application immediately matches visual benchmark screenshot!
     st.session_state["is_demo_mode"] = True
 
-# Fetch profile
-try:
-    current_profile = get_profile(profile_id=1)
-except Exception:
-    current_profile = {
-        "id": 1,
-        "candidate_name": "Sindhu Suraj",
-        "skills": ["Python", "Machine Learning", "SQL", "Data Analysis"],
-        "preferred_location": "Bengaluru, India",
-        "preferred_work_model": "All",
-    }
+# Fetch candidate profile safely
+current_profile = st.session_state.get("profile_data", {
+    "id": 1,
+    "candidate_name": "Sindhu Suraj",
+    "skills": ["Python", "Machine Learning", "SQL", "Data Analysis"],
+    "preferred_location": "Bengaluru, India",
+    "preferred_work_model": "All",
+})
+
+if db_ok:
+    try:
+        current_profile = get_profile(profile_id=1)
+        st.session_state["profile_data"] = current_profile
+    except Exception:
+        pass
 
 # -------------------------------------------------------------
 # Sidebar Navigation & Filters
@@ -199,7 +203,10 @@ with st.sidebar:
     if db_ok:
         st.markdown("<div style='font-size: 11.5px; color: #16A34A; font-weight: 600;'>🟢 MySQL Persistent DB: Connected</div>", unsafe_allow_html=True)
     else:
-        st.markdown(f"<div style='font-size: 11.5px; color: #DC2626; font-weight: 600;'>🔴 MySQL Error: {db_msg[:40]}...</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='font-size: 11.5px; color: #DC2626; font-weight: 600;'>🔴 MySQL Error: Host Unreachable</div>", unsafe_allow_html=True)
+        if st.button("🔄 Retry DB Connection", key="btn_retry_db", type="secondary", use_container_width=True):
+            st.cache_resource.clear()
+            st.rerun()
 
 # -------------------------------------------------------------
 # Main Content Area Page Routing

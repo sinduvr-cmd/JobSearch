@@ -22,11 +22,11 @@ def render_saved_jobs_page(profile_id: int = 1):
     try:
         saved_jobs = get_saved_jobs_detailed(profile_id=profile_id)
     except Exception as e:
-        st.error(f"Failed to fetch saved jobs from MySQL: {e}")
-        return
+        st.warning(f"⚠️ **Database Disconnected:** Could not retrieve saved jobs from MySQL ({e}). Connect your database to sync saved jobs.")
+        saved_jobs = []
 
     if not saved_jobs:
-        st.info("You haven't saved any jobs yet. When browsing listings in **Search Jobs**, click the **🤍 Save** button on any card!")
+        st.info("No saved jobs to display. When browsing listings in **Search Jobs**, click the **🤍 Save** button on any card!")
         return
 
     st.markdown(f"**Total Bookmarked Jobs:** `{len(saved_jobs)}`")

@@ -46,11 +46,11 @@ def get_engine():
         db_url = get_database_url()
         _engine = create_engine(
             db_url,
-            pool_size=10,
-            max_overflow=20,
+            pool_size=5,
+            max_overflow=10,
             pool_pre_ping=True,
             pool_recycle=1800,
-            connect_args={"connect_timeout": 10}
+            connect_args={"connect_timeout": 4}
         )
         _SessionFactory = sessionmaker(bind=_engine, expire_on_commit=False)
     return _engine
